@@ -55,10 +55,10 @@ git clone https://github.com/Shineii86/AniIPFinder.git
 
 ## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Objects/Test%20Tube.webp" alt="Test Tube" width="30" height="30" /> Technologies Used
 - HTML5, CSS3, JavaScript
-- Leaflet.js for interactive maps
-- Axios for API requests
-- Font Awesome for icons
-- Google Fonts for typography
+- [Leaflet.js](https://leafletjs.com/) for interactive maps
+- [Axios](https://axios-http.com/) for API requests
+- [Font Awesome](https://fontawesome.com/) for icons
+- [Google Fonts](https://fonts.google.com/) for typography
 
 ## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Objects/Identification%20Card.webp" alt="Identification Card" width="25" height="25" /> License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
