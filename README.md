@@ -23,7 +23,7 @@ Discover your digital location with the charm of Studio Ghibli! This whimsical w
 | :--------: | :---------- |
 |	<img src="./Source/Preview1.png" width="200"/> | <img src="./Source/Preview2.png" width="200"/> |
   
-[![Live Demo](https://img.shields.io/badge/Live_Demo-FF2A6D?style=for-the-badge&logo=vercel&logoColor=white)](https://shineii86.github.io/AniEmojis/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-FF2A6D?style=for-the-badge&logo=vercel&logoColor=white)](https://shineii86.github.io/AniIPFinder/)
 
 </div>
 
