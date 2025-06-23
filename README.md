@@ -10,18 +10,19 @@
 <img src="./Source/Banner1.png" alt="Banner" width="1000" />
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-8ecf9c.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/yourusername/ghibli-ip-finder?color=8ecf9c&style=flat-square)](https://github.com/yourusername/ghibli-ip-finder)
-[![Open in GitHub](https://img.shields.io/badge/Open%20in-GitHub-8ecf9c?style=flat-square&logo=github)](https://github.com/yourusername/ghibli-ip-finder)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/Shineii86/AniIPFinder?color=8ecf9c&style=flat-square)](https://github.com/Shineii86/AniIPFinder)
+[![Open in GitHub](https://img.shields.io/badge/Open%20in-GitHub-8ecf9c?style=flat-square&logo=github)](https://github.com/Shineii86/AniIPFinder)
 
 Discover your digital location with the charm of Studio Ghibli! This whimsical web application displays your IP address, location details, and shows your approximate location on an interactive map - all wrapped in a delightful Ghibli-inspired design.
 
-## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Animals%20and%20Nature/Star.webp" alt="Star" width="25" height="25" /> Preview
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Animals%20and%20Nature/Star.webp" alt="Star" width="30" height="30" /> Preview
 
-| Section	Preview |
-| :--: |
-|	<img src="./Source/Preview1.png" width="200"/> | 
+| IP Section | Map Section |
+| :--------: | :---------- |
+|	<img src="./Source/Preview1.png" width="200"/> | <img src="./Source/Preview2.png" width="200"/> |
 
-## Features ✨
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Activity/Sparkles.webp" alt="Sparkles" width="30" height="30" /> Features
+ Features
 
 - **Ghibli-inspired Design**: Soft pastel colors, Totoro character, and cloud motifs
 - **IP Information Display**: Shows public IP address and detailed location data
@@ -30,36 +31,41 @@ Discover your digital location with the charm of Studio Ghibli! This whimsical w
 - **Social Links**: Beautiful footer with animated social media icons
 - **Responsive Layout**: Works on desktop, tablet, and mobile devices
 
-## How to Use 🚀
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Smileys/Thinking%20Face.webp" alt="Thinking Face" width="30" height="30" /> How to Use
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ghibli-ip-finder.git
+git clone https://github.com/Shineii86/AniIPFinder.git
 ```
 2. Open `index.html` in any modern web browser
 3. The application will automatically detect your IP address and location
 
-## Controls:
+## <img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Activity/Video%20Game.webp" alt="Video Game" width="30" height="30" /> Controls:
 - [x] Refresh IP: Fetch latest IP information
 - [x] Copy IP: Copy your IP address to clipboard
 - [ ] Check VPN: Simulates VPN/Proxy detection
 
-## Technologies Used 🛠️
+<img src="./Source/Banner2.png" alt="Banner" width="1000" />
+
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Objects/Test%20Tube.webp" alt="Test Tube" width="30" height="30" /> Technologies Used
 - HTML5, CSS3, JavaScript
 - Leaflet.js for interactive maps
 - Axios for API requests
 - Font Awesome for icons
 - Google Fonts for typography
 
-## <img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Symbols/Two%20Hearts.webp" alt="Two Hearts" width="25" height="25" /> Loved My Work?
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Objects/Identification%20Card.webp" alt="Identification Card" width="25" height="25" /> License
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
-<img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Animals%20and%20Nature/Star.webp" alt="Star" width="25" height="25" />&nbsp;[Give a star to this project](https://github.com/Shineii86/AniEmojis/) <br/>
-<img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Animals%20and%20Nature/Cherry%20Blossom.webp" alt="Cherry Blossom" width="25" height="25" />&nbsp;[Follow me on GitHub](https://github.com/Shineii86/Shineii86)<br/>
+## <img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Symbols/Two%20Hearts.webp" alt="Two Hearts" width="30" height="30" /> Loved My Work?
 
-> <img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Smileys/Thinking%20Face.webp" alt="Thinking Face" width="25" height="25" /> Wondering where to get these animated emojis?
+<img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Animals%20and%20Nature/Star.webp" alt="Star" width="30" height="30" />&nbsp;[Give a star to this project](https://github.com/Shineii86/AniIPFinder/) <br/>
+<img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Animals%20and%20Nature/Cherry%20Blossom.webp" alt="Cherry Blossom" width="30" height="30" />&nbsp;[Follow me on GitHub](https://github.com/Shineii86/Shineii86)<br/>
+
+> <img src="https://raw.githubusercontent.com/Shineii86/Emojis/main/Smileys/Thinking%20Face.webp" alt="Thinking Face" width="30" height="30" /> Wondering where to get these animated emojis?
 > [Visit here!](https://github.com/Shineii86/AniEmojis) You also should look around my other github repos. Maybe you'll find some cool useful stuff there.
 
-## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/refs/heads/main/Objects/Telephone.webp" alt="Telephone" width="25" height="25" /> Contact
+## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/refs/heads/main/Objects/Telephone.webp" alt="Telephone" width="30" height="30" /> Contact
 > For inquiries or collaborations:
   
 [![Telegram Badge](https://img.shields.io/badge/-Telegram-2CA5E0?style=flat&logo=Telegram&logoColor=white)](https://telegram.me/Shineii86 "Contact on Telegram")
@@ -76,8 +82,7 @@ git clone https://github.com/yourusername/ghibli-ip-finder.git
 
 <div align="center">
   
-[![Profile last updated](https://img.shields.io/github/last-commit/Shineii86/AniEmojis/main?label=Last%20updated&style=flat)](https://github.com/Shineii86/Shineii86/commits)
+[![Profile last updated](https://img.shields.io/github/last-commit/Shineii86/AniIPFinder/main?label=Last%20updated&style=flat)](https://github.com/Shineii86/Shineii86/commits)
   
   <sup><b>Copyright © 2025 <a href="https://telegram.me/Shineii86">Shinei Nouzen</a> All Rights Reserved</b></sup>
 </div>
-
