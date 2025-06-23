@@ -17,9 +17,15 @@ Discover your digital location with the charm of Studio Ghibli! This whimsical w
 
 ## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Animals%20and%20Nature/Star.webp" alt="Star" width="30" height="30" /> Preview
 
+<div align="center">
+
 | IP Section | Map Section |
 | :--------: | :---------- |
 |	<img src="./Source/Preview1.png" width="200"/> | <img src="./Source/Preview2.png" width="200"/> |
+  
+[![Live Demo](https://img.shields.io/badge/Live_Demo-FF2A6D?style=for-the-badge&logo=vercel&logoColor=white)](https://shineii86.github.io/AniEmojis/)
+
+</div>
 
 ## <img src="https://raw.githubusercontent.com/Shineii86/AniEmojis/main/Activity/Sparkles.webp" alt="Sparkles" width="30" height="30" /> Features
  Features
