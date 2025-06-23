@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ani IP Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ghibli-blue: #a8d8ea;
+            --ghibli-green: #8ecf9c;
+            --ghibli-yellow: #f9e576;
+            --ghibli-cream: #fff9e6;
+            --ghibli-brown: #8a6d3b;
+            --ghibli-red: #e67d7d;
+            --ghibli-sky: #c1e4e9;
+            --ghibli-shadow: rgba(138, 109, 59, 0.2);
+            --ghibli-dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, var(--ghibli-sky), var(--ghibli-blue));
+            color: var(--ghibli-dark);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="20" r="5" fill="white" fill-opacity="0.4"/><circle cx="50" cy="40" r="7" fill="white" fill-opacity="0.4"/><circle cx="80" cy="25" r="4" fill="white" fill-opacity="0.4"/><circle cx="30" cy="70" r="6" fill="white" fill-opacity="0.4"/><circle cx="70" cy="65" r="5" fill="white" fill-opacity="0.4"/><circle cx="90" cy="80" r="3" fill="white" fill-opacity="0.4"/></svg>');
+            background-size: 200px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 3.5rem;
+            color: var(--ghibli-brown);
+            text-shadow: 3px 3px 0 var(--ghibli-shadow);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--ghibli-dark);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .ip-display-card {
+            flex: 1;
+            min-width: 300px;
+            background: var(--ghibli-cream);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--ghibli-shadow);
+            border: 3px solid var(--ghibli-brown);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-display-card::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--ghibli-green);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .ip-display-card::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: var(--ghibli-blue);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .card-title {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--ghibli-brown);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ip-address {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--ghibli-dark);
+            text-align: center;
+            margin: 20px 0;
+            font-family: monospace;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--ghibli-blue), var(--ghibli-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px dashed var(--ghibli-blue);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .ip-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .detail-box {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 2px solid var(--ghibli-blue);
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: var(--ghibli-brown);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ghibli-dark);
+        }
+
+        .map-container {
+            flex: 2;
+            min-width: 300px;
+            background: var(--ghibli-cream);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--ghibli-shadow);
+            border: 3px solid var(--ghibli-brown);
+            position: relative;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 22px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--ghibli-green);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Patrick Hand', cursive;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px var(--ghibli-shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--ghibli-shadow);
+            background: #7bc28d;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-secondary {
+            background: var(--ghibli-blue);
+        }
+
+        .btn-secondary:hover {
+            background: #97c9db;
+        }
+
+        .btn-danger {
+            background: var(--ghibli-red);
+        }
+
+        .btn-danger:hover {
+            background: #d86c6c;
+        }
+
+        .ghibli-character {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            background: #8a6d3b;
+            border-radius: 50% 50% 50% 0;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 5px 5px 0 var(--ghibli-shadow);
+        }
+
+        .character-body {
+            width: 80px;
+            height: 80px;
+            background: #6a5129;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .character-ear {
+            position: absolute;
+            width: 25px;
+            height: 35px;
+            background: #6a5129;
+            border-radius: 50%;
+            top: -20px;
+        }
+
+        .character-ear.left {
+            left: 10px;
+            transform: rotate(-20deg);
+        }
+
+        .character-ear.right {
+            right: 10px;
+            transform: rotate(20deg);
+        }
+
+        .character-eye {
+            position: absolute;
+            width: 12px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 25px;
+        }
+
+        .character-eye.left {
+            left: 20px;
+        }
+
+        .character-eye.right {
+            right: 20px;
+        }
+
+        .character-eye::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #333;
+            border-radius: 50%;
+            bottom: 3px;
+            left: 3px;
+        }
+
+        .character-mouth {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            border-bottom: 3px solid #333;
+            border-radius: 0 0 50% 50%;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--ghibli-brown);
+            font-size: 0.9rem;
+            padding: 20px;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loader-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--ghibli-green);
+            margin: 0 5px;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .copy-notification {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ghibli-green);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s, top 0.3s;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .copy-notification.show {
+            top: -40px;
+            opacity: 1;
+        }
+
+        .social-footer {
+            background: var(--ghibli-cream);
+            border-radius: 25px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 3px solid var(--ghibli-brown);
+            box-shadow: 0 10px 30px var(--ghibli-shadow);
+        }
+
+        .social-footer h3 {
+            font-family: 'Patrick Hand', cursive;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--ghibli-brown);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--ghibli-brown);
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--ghibli-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 5px 15px var(--ghibli-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            background: var(--ghibli-green);
+            transform: scale(1.1);
+        }
+
+        .social-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ip-address {
+                font-size: 1.8rem;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .social-links {
+                gap: 15px;
+            }
+            
+            .social-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cloud"></i> Ani IP Finder</h1>
+            <p class="subtitle">Discover your digital location with the charm of Studio Ghibli. Find your IP address, location, and more in this whimsical interface inspired by your favorite animated worlds.</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="ip-display-card">
+                <h2 class="card-title"><i class="fas fa-map-marker-alt"></i> Your IP Information</h2>
+                <div class="ip-address" id="ipDisplay">
+                    192.168.1.1
+                    <div class="copy-notification" id="copyNotification">Copied to clipboard!</div>
+                </div>
+                
+                <div class="ip-details">
+                    <div class="detail-box">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value" id="location">Loading...</div>
+                    </div>
+                    <div class="detail-box">
+                        <div class="detail-label">Region</div>
+                        <div class="detail-value" id="region">Loading...</div>
+                    </div>
+                    <div class="detail-box">
+                        <div class="detail-label">Country</div>
+                        <div class="detail-value" id="country">Loading...</div>
+                    </div>
+                    <div class="detail-box">
+                        <div class="detail-label">Timezone</div>
+                        <div class="detail-value" id="timezone">Loading...</div>
+                    </div>
+                    <div class="detail-box">
+                        <div class="detail-label">ISP</div>
+                        <div class="detail-value" id="isp">Loading...</div>
+                    </div>
+                    <div class="detail-box">
+                        <div class="detail-label">Coordinates</div>
+                        <div class="detail-value" id="coordinates">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="ghibli-character">
+                    <div class="character-body">
+                        <div class="character-ear left"></div>
+                        <div class="character-ear right"></div>
+                        <div class="character-eye left"></div>
+                        <div class="character-eye right"></div>
+                        <div class="character-mouth"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="refreshBtn">
+                <i class="fas fa-sync-alt"></i> Refresh IP
+            </button>
+            <button class="btn btn-secondary" id="copyBtn">
+                <i class="fas fa-copy"></i> Copy IP
+            </button>
+            <button class="btn btn-danger" id="vpnCheckBtn">
+                <i class="fas fa-shield-alt"></i> Check VPN
+            </button>
+        </div>
+        
+        <div class="loader" id="loader">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+        
+        <div class="social-footer">
+            <h3>Connect with Me</h3>
+            <div class="social-links">
+                <a href="https://github.com/Shineii86" class="social-link" target="_blank">
+                    <div class="social-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <span class="social-text">GitHub</span>
+                </a>
+                <a href="https://twitter.com/Shineii86" class="social-link" target="_blank">
+                    <div class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <span class="social-text">Twitter</span>
+                </a>
+                <a href="https://telegram.me/Shineii86" class="social-link" target="_blank">
+                    <div class="social-icon">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <span class="social-text">Telegram</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+            <p>Made with <i class="fas fa-heart" style="color: var(--ghibli-red);"></i> By Shinei Nouzen</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([0, 0], 2);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+        
+        // Add a custom marker
+        const customIcon = L.divIcon({
+            className: 'ghibli-marker',
+            html: '<div style="background: var(--ghibli-green); width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 3px 3px 5px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center;"><i class="fas fa-map-marker-alt" style="color: white; transform: rotate(45deg); font-size: 14px;"></i></div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+        
+        let marker = L.marker([0, 0], {icon: customIcon}).addTo(map);
+        
+        // Function to fetch IP information
+        async function fetchIPInfo() {
+            showLoader(true);
+            try {
+                const response = await axios.get('https://ipinfo.io/json');
+                const data = response.data;
+                
+                // Update UI with IP information
+                document.getElementById('ipDisplay').textContent = data.ip;
+                document.getElementById('location').textContent = data.city || 'Unknown';
+                document.getElementById('region').textContent = data.region || 'Unknown';
+                document.getElementById('country').textContent = data.country || 'Unknown';
+                document.getElementById('timezone').textContent = data.timezone || 'Unknown';
+                document.getElementById('isp').textContent = data.org ? data.org.split(' ').slice(1).join(' ') : 'Unknown';
+                
+                // Process coordinates
+                const [lat, lng] = data.loc ? data.loc.split(',').map(coord => parseFloat(coord)) : [0, 0];
+                document.getElementById('coordinates').textContent = data.loc || '0,0';
+                
+                // Update map
+                map.setView([lat, lng], 10);
+                marker.setLatLng([lat, lng]);
+                
+                // Add a popup to the marker
+                marker.bindPopup(`<b>Your Location</b><br>${data.city}, ${data.region}`).openPopup();
+                
+            } catch (error) {
+                console.error('Error fetching IP information:', error);
+                document.getElementById('ipDisplay').textContent = 'Error';
+                document.getElementById('location').textContent = 'Failed to load';
+                document.getElementById('region').textContent = 'Failed to load';
+                document.getElementById('country').textContent = 'Failed to load';
+                document.getElementById('timezone').textContent = 'Failed to load';
+                document.getElementById('isp').textContent = 'Failed to load';
+                document.getElementById('coordinates').textContent = '0,0';
+            } finally {
+                showLoader(false);
+            }
+        }
+        
+        // Function to show/hide loader
+        function showLoader(show) {
+            const loader = document.getElementById('loader');
+            loader.style.display = show ? 'block' : 'none';
+        }
+        
+        // Function to copy IP to clipboard
+        function copyToClipboard() {
+            const ip = document.getElementById('ipDisplay').textContent;
+            navigator.clipboard.writeText(ip).then(() => {
+                // Show notification
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                
+                // Hide after 2 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+        
+        // VPN check function (simulated)
+        function checkVPN() {
+            // In a real implementation, this would call a VPN detection API
+            // For this demo, we'll simulate a random result
+            showLoader(true);
+            setTimeout(() => {
+                const isVPN = Math.random() > 0.7;
+                if (isVPN) {
+                    alert('VPN detected: Your connection appears to be using a VPN or proxy.');
+                } else {
+                    alert('No VPN detected: Your connection appears to be direct.');
+                }
+                showLoader(false);
+            }, 1000);
+        }
+        
+        // Event listeners
+        document.getElementById('refreshBtn').addEventListener('click', fetchIPInfo);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        document.getElementById('vpnCheckBtn').addEventListener('click', checkVPN);
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', fetchIPInfo);
+    </script>
+</body>
+</html>
